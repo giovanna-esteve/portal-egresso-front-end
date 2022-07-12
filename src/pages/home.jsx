@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 import { Container } from "react-bootstrap";
 import Slider from "react-slick";
 import EgressoCard from "../components/egresso-card";
@@ -10,9 +10,26 @@ import '../css/home.css'
 import Footer from "../components/footer";
 import imgLogin from '../images/image_login_2.svg'
 import imgHome from '../images/imagem_home.svg'
+import EgressoService from "../EgressoService";
 
 
 function Home(){
+
+    const service = new EgressoService();
+
+    const [state, setState] = useState({egressos : []});
+
+    function componentDidMount() {
+        service.listar()
+        .then( response => {
+            console.log(response.data)
+            setState( {egressos : response.data} )
+        }).catch (erro => {
+            console.log(erro.response)
+        })
+    }
+
+    componentDidMount()
 
     var SliderDefaultsettings = {
         dots: true,
@@ -57,12 +74,7 @@ function Home(){
                     <Container >
                     <h2 style={{"paddingBottom": "2rem", color: '#ffffff'}}>Egressos</h2>
                     <Slider {...SliderDefaultsettings}>
-                        <EgressoCard/>
-                        <EgressoCard/>
-                        <EgressoCard/>
-                        <EgressoCard/>
-                        <EgressoCard/>
-                        <EgressoCard/>
+                        {state.egressos.map((egr)=> { return <EgressoCard egressos={egr}/>})}
                     </Slider>
                     <div className="d-flex justify-content-center pt-5">
                         <Button href="#/egressos" variant="primary">Ver mais</Button>

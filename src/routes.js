@@ -24,7 +24,7 @@ const Rotas = () => {
             <Route path="/recuperar_senha" element={<RecuperarSenha />} />      
             <Route path="/cadastro" element={<Cadastro />} />  
             <Route path="/cadastro-senha" element={<CadastroSenha />} />  
-            <Route path="/egresso" element={<Egresso />} /> 
+            <Route path="/egresso/:id" element={<Egresso />} /> 
             <Route path="/usuario" element={<Usuario />} /> 
         </Routes>
     </HashRouter>

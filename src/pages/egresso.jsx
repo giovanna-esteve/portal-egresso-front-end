@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Header from "../components/header";
 import Footer from "../components/footer";
@@ -6,9 +6,29 @@ import CursoCard from "../components/curso-card";
 import ContatoCard from "../components/contato-card";
 import DepoimentoCard from "../components/depoimento-card";
 import Slider from "react-slick";
+import { useParams } from "react-router-dom";
+import EgressoService from "../EgressoService";
+
+
 
 
 function Egresso(){
+
+    const { id } = useParams();
+
+    const service = new EgressoService()
+
+    const [state, setState] = useState({egressos : []});
+
+    function componentDidMount() {
+        service.busca_dados_pagina_egresso(id)
+        .then( response => {
+            console.log(response.data)
+            setState( {egressos : response.data} )
+        }).catch (erro => {
+            console.log(erro.response)
+        })
+    }
 
     var SliderDefaultsettings = {
         dots: true,
@@ -18,6 +38,8 @@ function Egresso(){
         slidesToShow: 3,
         slidesToScroll: 2
     };
+
+    componentDidMount();
 
     return(
         <React.Fragment>
@@ -29,7 +51,7 @@ function Egresso(){
                                 <img style={{ width: '18rem', height: '18rem', objectFit: 'cover', borderRadius: '50%'}} className=" " src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"alt=""/>
                             </Col>
                             <Col lg={7} className=" mt-5 mb-3" style={{color: '#ffffff'}}>
-                                <h2>Nome Sobrenome</h2>
+                                <h2>{state.egressos.nome}</h2>
                                 <p>Descricao</p>
                                 <p>idade</p>
                                 <p>outros dados</p>
