@@ -3,6 +3,7 @@ import { Route, HashRouter, Routes } from "react-router-dom";
 
 import Home from "./pages/home";
 import Cursos from "./pages/cursos";
+import Curso from "./pages/curso";
 import Egressos from "./pages/egressos";
 import Depoimentos from "./pages/depoimentos";
 import Login from "./pages/login";
@@ -19,6 +20,7 @@ const Rotas = () => {
             <Route path="/home" element={<Home/>} /> 
             <Route path="/egressos" element={<Egressos />} />
             <Route path="/cursos" element={<Cursos />} />
+            <Route path="/curso/:id" element={<Curso />} />
             <Route path="/depoimentos" element={<Depoimentos />} />    
             <Route path="/login" element={<Login />} />     
             <Route path="/recuperar_senha" element={<RecuperarSenha />} />      
