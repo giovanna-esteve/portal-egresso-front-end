@@ -11,7 +11,8 @@ import RecuperarSenha from "./pages/recuparar_senha";
 import Cadastro from "./pages/cadastro";
 import CadastroSenha from "./pages/cadastro-senha";
 import Egresso from "./pages/egresso";
-import Usuario from "./pages/usuario"
+import Usuario from "./pages/usuario";
+import Administrador from "./pages/administrador";
 
 const Rotas = () => {
    return(
@@ -28,6 +29,7 @@ const Rotas = () => {
             <Route path="/cadastro-senha" element={<CadastroSenha />} />  
             <Route path="/egresso/:id" element={<Egresso />} /> 
             <Route path="/usuario" element={<Usuario />} /> 
+            <Route path="/administrador" element={<Administrador />} /> 
         </Routes>
     </HashRouter>
    )
