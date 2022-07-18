@@ -4,10 +4,6 @@ class UsuarioService extends ApiService {
         super('/api/usuarios')
     }
 
-    autenticar(email, senha) {
-        return this.post(`/autenticar?email=${email}&senha=${senha}`)
-    }
-
     listarAdms() {
         return this.get(`/listar`)
     }
