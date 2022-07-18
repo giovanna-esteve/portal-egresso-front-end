@@ -1,7 +1,19 @@
 import axios from 'axios'
+import {getToken, isAuthenticated} from './Auth'
 
 const instance = axios.create({
     baseURL: 'http://localhost:8080',
+});
+
+
+instance.interceptors.request.use(async config => {
+    if(isAuthenticated){
+        const token = getToken();
+        if (token) {
+            config.headers.Authorization = `${token}`;
+        }
+    }
+    return config;
 });
 
 class ApiService {
