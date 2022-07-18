@@ -21,15 +21,15 @@ function EgressoForm(props){
         <Form>
             <Col>
                 <Form.Group controlId="formGridAddress1" className="mb-3">
-                    <Form.Label>Nome Completo</Form.Label>
+                    <Form.Label>Nome Completo <span className="black">*</span></Form.Label>
                     <Form.Control type="text" value={props.egresso.nome} onChange={(e) => guardar_variaveis_inseridas(e.target.value,props.egresso.email,props.egresso.cpf,props.egresso.resumo)}/>
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridEmail" className="mb-3">
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label>Email <span className="black">*</span></Form.Label>
                     <Form.Control type="email" value={props.egresso.email} onChange={(e) => guardar_variaveis_inseridas(props.egresso.nome,e.target.value,props.egresso.cpf,props.egresso.resumo)}/>
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridPassword" className="mb-3">
-                    <Form.Label>CPF</Form.Label>
+                    <Form.Label>CPF <span className="black">*</span></Form.Label>
                     <Form.Control value={props.egresso.cpf} onChange={(e) => guardar_variaveis_inseridas(props.egresso.nome,props.egresso.email,e.target.value,props.egresso.resumo)}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">

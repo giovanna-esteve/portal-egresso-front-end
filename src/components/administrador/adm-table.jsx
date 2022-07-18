@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Button, Row, Col, Form, Table, Card} from "react-bootstrap";
+import Swal from "sweetalert2"; 
 import Header from "../header";
 import Footer from "../footer";
 import { Modal } from "react-bootstrap";
@@ -14,15 +15,34 @@ function AdmTable(props){
     function cadastrarUsuarioAdm(id, nome, email, senha)  {
       service.cadastrarAdm(nome, email, senha)
         .then( response => {
+          Swal.fire('Administrador cadastrado com sucesso!', '', 'success').then((result) => {
             window.location.reload();
+          }); 
         }).catch (erro => {
             console.log(erro.response)
         })
     }
+
+    function confirmarRemover(id)  {
+      Swal.fire({  
+        title: 'Removar administrador?',  
+        type: 'warning',  
+        showCancelButton: true,  
+        confirmButtonColor: '#3085d6',  
+        cancelButtonColor: '#d33',  
+        confirmButtonText: 'Yes!'  
+      }).then((result) => {  
+        if (result.isConfirmed){
+          removerUsuarioAdm(id)
+        }
+      });
+    }
     function removerUsuarioAdm(id)  {
       service.remover(id)
         .then( response => {
+          Swal.fire('Administrador removido com sucesso.', '', 'success').then((result) => {
             window.location.reload();
+          });
         }).catch (erro => {
             console.log(erro.response)
         })
@@ -51,7 +71,7 @@ function AdmTable(props){
                 <AdmModal botao={btn_edit} adm={adm} funcao_salvar={editarUsuarioAdm}/>
               </div>           */}
               <div className="btn-group ">
-                  <button onClick={() => removerUsuarioAdm(adm.id)} type="button" className="btn btn-danger">Remover</button>
+                  <button onClick={() => confirmarRemover(adm.id)} type="button" className="btn btn-danger">Remover</button>
               </div>                   
           </td>
         </tr>

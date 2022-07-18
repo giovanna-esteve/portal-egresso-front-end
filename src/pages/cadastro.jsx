@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import { Button,Col, Container, Row, Form,  Card } from "react-bootstrap";
+import Swal from "sweetalert2"; 
 import '../css/cadastro.css'
 import HeaderForms from "../components/header-forms";
 import Footer from "../components/footer";
@@ -21,6 +22,9 @@ function Cadastro(){
     const [contatoEgresso, setContatoEgresso] = useState({})
     const [usuario, setUsuario] = useState({})
 
+    const navigate = useNavigate();
+    
+
     function salvar_cadastro(){
         var obj1 = {egresso};
         var obj2 = { cursoEgresso};
@@ -34,6 +38,14 @@ function Cadastro(){
 
         service.cadastrarEgresso(dados_cadastro)
         .then( response => {
+            Swal.fire({  
+                title: 'Cadastro completo!',  
+                type: 'success',  
+                text: 'Seus dados foram cadastrados com sucesso!', 
+                icon: 'success',   
+              }).then((result) => {  
+                navigate('../home');
+              }); 
             console.log(response.data)
         }).catch (erro => {
             console.log(erro.response)
@@ -45,7 +57,7 @@ function Cadastro(){
     let tela;
     let botao;
     if (senhasShow) {
-        tela = <SenhaCard setUsuario={setUsuario} egresso={egresso} salvar_cadastro={salvar_cadastro} setSenhasShow={setSenhasShow}/>;
+        tela = <SenhaCard setUsuario={setUsuario} egresso={egresso} salvar_cadastro={salvar_cadastro} usuario={usuario} setSenhasShow={setSenhasShow}/>;
     } else {
         tela = <div><EgressoForm egresso={egresso} setEgresso={setEgresso} />
                 <CursoForm cursoEgresso={cursoEgresso} setCursoEgresso={setCursoEgresso}/>

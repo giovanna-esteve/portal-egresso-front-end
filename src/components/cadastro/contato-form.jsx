@@ -13,7 +13,7 @@ function ContatoForm(props){
             var aux = []
             response.data.map(
                 (contato)=>{
-                    aux.push({id:contato.id, descricao:""})
+                    aux.push({contato_id:contato.id, descricao:""})
                 }
             )
             setState({contatos: response.data})

@@ -47,13 +47,13 @@ function ProfissaoForm(props){
 
 <Container className="mb-5 px-5 ">
     <Card className="cards-cadastro">
-        <Card.Header>Profissão atual (opcional)</Card.Header>
+        <Card.Header>Profissão atual</Card.Header>
         <Card.Body>
         <Form>
             <Row className="mb-3">
                 <Col xs={12} >
                     <Form.Group as={Col} controlId="">
-                    <Form.Label>Empresa</Form.Label>
+                    <Form.Label>Empresa <span className="black">*</span></Form.Label>
                     <Form.Control value={props.profissao.empresa} onChange={(e) => guardar_variaveis_inseridas(e.target.value, props.profissao.descricao, props.profissao.id_cargo, props.profissao.id_faixa_salario)} />
                     </Form.Group>
                 </Col>
@@ -66,14 +66,14 @@ function ProfissaoForm(props){
             </Row>
             <Row className="mb-3">
                 <Form.Group as={Col} controlId="">
-                <Form.Label>Cargo</Form.Label>
+                <Form.Label>Cargo <span className="black">*</span></Form.Label>
                 <Form.Select value={props.profissao.id_cargo} onChange={(e) => guardar_variaveis_inseridas(props.profissao.empresa, props.profissao.descricao, e.target.value, props.profissao.id_faixa_salario)}>
                     <option>Escolha uma opção...</option>
                     {select_cargo}
                 </Form.Select>
                 </Form.Group>
                 <Form.Group as={Col} controlId="">
-                    <Form.Label>Faixa Salarial</Form.Label>
+                    <Form.Label>Faixa Salarial <span className="black">*</span></Form.Label>
                     <Form.Select value={props.profissao.id_faixa_salario} onChange={(e) => guardar_variaveis_inseridas(props.profissao.empresa, props.profissao.descricao, props.profissao.id_cargo, e.target.value)}>
                         <option>Escolha uma opção...</option>
                         {select_salario}

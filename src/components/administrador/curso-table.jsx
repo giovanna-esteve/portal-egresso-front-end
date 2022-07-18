@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Button, Row, Col, Form, Table, Card} from "react-bootstrap";
+import Swal from "sweetalert2"; 
 import { confirm } from "react-confirm-box";
 import Header from "../header";
 import Footer from "../footer";
@@ -14,7 +15,9 @@ function CursoTable(props){
     function cadastrarCurso(id, nome, nivel)  {
       service.cadastrar(nome, nivel)
         .then( response => {
+          Swal.fire('Curso cadastrado com sucesso!', '', 'success').then((result) => {
             window.location.reload();
+          });
         }).catch (erro => {
             console.log(erro.response)
         })
@@ -22,17 +25,36 @@ function CursoTable(props){
     function editarCurso(id, nome, nivel)  {
       service.editar(id, nome, nivel)
         .then( response => {
+          Swal.fire('Curso editado com sucesso!', '', 'success').then((result) => {
             window.location.reload();
+          });
         }).catch (erro => {
           console.log(erro.response)
           alert(erro.response.data)
         })
       
     }
+
+    function confirmarRemover(id)  {
+      Swal.fire({  
+        title: 'Removar curso?',  
+        type: 'warning',  
+        showCancelButton: true,  
+        confirmButtonColor: '#3085d6',  
+        cancelButtonColor: '#d33',  
+        confirmButtonText: 'Yes!'  
+      }).then((result) => {  
+        if (result.isConfirmed){
+          removerCurso(id)
+        }
+      });
+    }
     function removerCurso(id)  {
       service.remover(id)
         .then( response => {
+          Swal.fire('Curso removido com sucesso.', '', 'success').then((result) => {
             window.location.reload();
+          });
         }).catch (erro => {
             console.log(erro.response)
             alert(erro.response.data)
@@ -55,7 +77,7 @@ function CursoTable(props){
                   <CursoModal botao={btn_edit} curso={curso} funcao_salvar={editarCurso}/>
               </div>          
               <div className="btn-group ">
-                  <button onClick={() =>{ removerCurso(curso.id)}} type="button" className="btn btn-danger">Remover</button>
+                  <button onClick={() =>{ confirmarRemover(curso.id)}} type="button" className="btn btn-danger">Remover</button>
               </div>                   
           </td>
         </tr>

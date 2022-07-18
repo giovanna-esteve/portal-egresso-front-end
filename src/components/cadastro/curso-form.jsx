@@ -39,7 +39,7 @@ function CursoForm(props){
         <Row className="mb-3">
             <Col xs={12} >
                 <Form.Group as={Col} controlId="">
-                <Form.Label>Selecione um curso</Form.Label>
+                <Form.Label>Selecione um curso <span className="black">*</span></Form.Label>
                 <Form.Select value={props.cursoEgresso.id_curso} onChange={(e) => guardar_variaveis_inseridas(e.target.value, props.cursoEgresso.data_inicio, props.cursoEgresso.data_conclusao)}>
                     <option>Escolha uma opção...</option>
                     {select_curso}
@@ -50,13 +50,13 @@ function CursoForm(props){
         <Row className="mb-3">
             <Col xs={6} >
                 <Form.Group as={Col} controlId="">
-                <Form.Label>Data inicio</Form.Label>
+                <Form.Label>Data inicio <span className="black">*</span></Form.Label>
                 <Form.Control type="date" value={props.cursoEgresso.data_inicio} onChange={(e) => guardar_variaveis_inseridas(props.cursoEgresso.id_curso, e.target.value, props.cursoEgresso.data_conclusao)}/>
                 </Form.Group>
             </Col>
             <Col xs={6} >
                 <Form.Group as={Col} controlId="">
-                <Form.Label>Data conclusão</Form.Label>
+                <Form.Label>Data conclusão <span className="black">*</span></Form.Label>
                 <Form.Control type="date"  value={props.cursoEgresso.data_conclusao} onChange={(e) => guardar_variaveis_inseridas(props.cursoEgresso.id_curso, props.cursoEgresso.data_inicio, e.target.value)}/>
                 </Form.Group>
             </Col>

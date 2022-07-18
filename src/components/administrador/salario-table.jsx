@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Button, Row, Col, Form, Table, Card} from "react-bootstrap";
+import Swal from "sweetalert2"; 
 import Header from "../header";
 import Footer from "../footer";
 import { Modal } from "react-bootstrap";
@@ -14,15 +15,34 @@ function SalarioTable(props){
     function cadastrarSalario(id, descricao)  {
       service.cadastrar(descricao)
         .then( response => {
+          Swal.fire('Faixa Salario cadastrado com sucesso!', '', 'success').then((result) => {
             window.location.reload();
+          });
         }).catch (erro => {
             console.log(erro.response)
         })
     }
+
+    function confirmarRemover(id)  {
+      Swal.fire({  
+        title: 'Removar Faixa Salario?',  
+        type: 'warning',  
+        showCancelButton: true,  
+        confirmButtonColor: '#3085d6',  
+        cancelButtonColor: '#d33',  
+        confirmButtonText: 'Yes!'  
+      }).then((result) => {  
+        if (result.isConfirmed){
+          removerSalario(id)
+        }
+      });
+    }
     function removerSalario(id)  {
       service.remover(id)
         .then( response => {
+          Swal.fire('Faixa Salario removido com sucesso.', '', 'success').then((result) => {
             window.location.reload();
+          });
         }).catch (erro => {
             console.log(erro.response)
         })
@@ -30,7 +50,9 @@ function SalarioTable(props){
     function editarSalario(id, descricao)  {
       service.editar(id, descricao)
         .then( response => {
+          Swal.fire('Faixa Salario editado com sucesso!', '', 'success').then((result) => {
             window.location.reload();
+          });
         }).catch (erro => {
             console.log(erro.response)
         })
@@ -50,7 +72,7 @@ function SalarioTable(props){
                 <SalarioModal botao={btn_edit} salario={salario} funcao_salvar={editarSalario}/>
               </div>          
               <div className="btn-group ">
-                  <button onClick={() => removerSalario(salario.id)} type="button" className="btn btn-danger">Remover</button>
+                  <button onClick={() => confirmarRemover(salario.id)} type="button" className="btn btn-danger">Remover</button>
               </div>                   
           </td>
         </tr>

@@ -2,15 +2,19 @@ import React, { useState } from 'react';
 import { Button,Col, Container, Row, Form,  Card } from "react-bootstrap";
 
 function SenhaCard(props){
-    const [senha, setSenha] = useState();
-    const [senhaRep, setSenhaRep] = useState();
+    const [senhaRep, setSenhaRep] = useState({senha:""});
 
-    function validar(){
-        if(senha!=senhaRep || (!senha)){
-            alert("senhas diferentes")
-        }else{
-            props.setUsuario({nome: props.egresso.nome, email: props.egresso.email, senha:senha})
+    function guardar_variaveis_inseridas(senha_var){
+        props.setUsuario({nome: props.egresso.nome, 
+            email: props.egresso.email, 
+            senha:senha_var})
+    }
+
+    function validar(senhaRep_var){
+        if(!(props.usuario.senha != senhaRep || (!senhaRep))){
             props.salvar_cadastro()
+        }else{
+            alert("senhas diferentes")
         }
     }
 
@@ -23,11 +27,11 @@ function SenhaCard(props){
                         <Form className=" px-5 ">
                             <Form.Group controlId="formGridAddress1" className="mb-3">
                                 <Form.Label>Senha</Form.Label>
-                                <Form.Control type="password" onChange={(e) => setSenha(e.target.value)} />
+                                <Form.Control  type="password" onChange={(e) => guardar_variaveis_inseridas(e.target.value)} />
                             </Form.Group>
                             <Form.Group as={Col} controlId="formGridEmail" className="mb-3">
                                 <Form.Label>Repita a senha</Form.Label>
-                                <Form.Control type="password" onChange={(e) => setSenhaRep(e.target.value)} />
+                                <Form.Control  type="password" onChange={(e) => setSenhaRep(e.target.value)} />
                             </Form.Group>
                         </Form>
                         </Card.Body>
