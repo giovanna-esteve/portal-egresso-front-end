@@ -5,7 +5,11 @@ class EgressoService extends ApiService {
     }
 
     listar() {
-        return this.post(`/listar`)
+        return this.get(`/listar`)
+    }
+
+    testarCadastro(egresso) {
+        return this.post(`/testarCadastro`,egresso)
     }
 
     busca_dados_pagina_egresso(id) {
