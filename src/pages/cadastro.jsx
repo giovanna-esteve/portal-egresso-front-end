@@ -4,8 +4,6 @@ import { Button,Col, Container, Row, Form,  Card } from "react-bootstrap";
 import '../css/cadastro.css'
 import HeaderForms from "../components/header-forms";
 import Footer from "../components/footer";
-import CadastroCard from "../components/cadastro-card";
-import CadastroSenha from './cadastro-senha';
 import EgressoForm from "../components/cadastro/egresso-form";
 import CursoForm from '../components/cadastro/curso-form';
 import ProfissaoForm from '../components/cadastro/profissao-form';
@@ -48,7 +46,6 @@ function Cadastro(){
     let botao;
     if (senhasShow) {
         tela = <SenhaCard setUsuario={setUsuario} egresso={egresso} salvar_cadastro={salvar_cadastro} setSenhasShow={setSenhasShow}/>;
-        botao = <Button  variant="secondary" onClick={() => salvar_cadastro()}>nao tocar</Button>;
     } else {
         tela = <div><EgressoForm egresso={egresso} setEgresso={setEgresso} />
                 <CursoForm cursoEgresso={cursoEgresso} setCursoEgresso={setCursoEgresso}/>
