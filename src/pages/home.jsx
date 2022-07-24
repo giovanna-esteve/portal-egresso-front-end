@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from "react-bootstrap";
 import Slider from "react-slick";
 import EgressoCard from "../components/egresso-card";
@@ -12,15 +12,19 @@ import imgLogin from '../images/image_login_2.svg'
 import imgHome from '../images/imagem_home.svg'
 import EgressoService from "../EgressoService";
 import CursoService from "../CursoService";
+import DepoimentoService from "../DepoimentoService";
 
 
 function Home(){
 
     const egressoService = new EgressoService();
     const cursoService = new CursoService();
+    const depoimentoService = new DepoimentoService();
 
     const [egressos, setEgressos] = useState([]);
     const [cursos, setCursos] = useState([]);
+    const [depoimentos, setDepoimentos] = useState([]);
+
 
     useEffect( ()=>{
         egressoService.listar()
@@ -39,6 +43,13 @@ function Home(){
                 console.log(erro.response)
             })
 
+            depoimentoService.recentes()
+            .then( response => {
+                console.log(response.data)
+                setDepoimentos(response.data)
+            }).catch (erro => {
+                console.log(erro.response)
+            })
 
     }, [])
 
@@ -108,12 +119,7 @@ function Home(){
                 <Container >
                     <h2 style={{"paddingBottom": "2rem", color: "#ffffff"}}>Depoimentos</h2>
                     <Slider {...SliderDepoimentosettings}>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
+                        {depoimentos.map((dep)=> { return <DepoimentoCard depoimento={dep}/>})}
                     </Slider>
                     <div className="d-flex justify-content-center pt-5">
                         <Button href="#/depoimentos" variant="primary">Ver mais</Button>
