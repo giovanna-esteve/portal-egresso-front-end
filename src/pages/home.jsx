@@ -11,13 +11,16 @@ import Footer from "../components/footer";
 import imgLogin from '../images/image_login_2.svg'
 import imgHome from '../images/imagem_home.svg'
 import EgressoService from "../EgressoService";
+import CursoService from "../CursoService";
 
 
 function Home(){
 
     const egressoService = new EgressoService();
+    const cursoService = new CursoService();
 
     const [egressos, setEgressos] = useState([]);
+    const [cursos, setCursos] = useState([]);
 
     useEffect( ()=>{
         egressoService.listar()
@@ -28,6 +31,13 @@ function Home(){
                 console.log(erro.response)
             })
 
+        cursoService.listar()
+            .then( response => {
+                console.log(response.data)
+                setCursos(response.data)
+            }).catch (erro => {
+                console.log(erro.response)
+            })
 
 
     }, [])
@@ -87,12 +97,7 @@ function Home(){
                 <Container >
                     <h2 style={{"paddingBottom": "2rem"}}>Cursos</h2>
                     <Slider {...SliderDefaultsettings}>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
+                        {cursos.map((cur)=> { return <CursoCard curso={cur}/>})}
                     </Slider>
                     <div className="d-flex justify-content-center pt-5">
                         <Button href="#/cursos" variant="primary">Ver mais</Button>
