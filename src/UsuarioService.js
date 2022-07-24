@@ -16,5 +16,9 @@ class UsuarioService extends ApiService {
         return this.post(`/remover?id=${id}`)
     }
 
+    usuarioAtual() {
+        return this.get(`/user`)
+    }
+
 }
 export default UsuarioService
