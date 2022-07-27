@@ -6,60 +6,56 @@ import { Modal } from "react-bootstrap";
 
 function ContatoModal(props){
 
-
-
     function MyVerticallyCenteredModal(props) {
-        //const [descricao, setDescricao] = useState(props.contatoEgresso.descricao)
-        //const [id, setId] = useState(props.contato.id)
-        
+        const [contatoEgressoList, setContatoEgressoList] = useState();
+       
         function salvar_contato(){
-
-          //props.funcao_salvar();
-          //setModalShow(false)
+          props.funcao_salvar(contatoEgressoList);
+          setModalShow(false)
         }
 
         function guardar_variaveis_inseridas(valor,contato_id){
           var aux = []
-          props.contatos.map(
-              (item,index)=>{
-                  var descricao = props.contatoEgresso[index].descricao;
-                  var egresso_id = props.contatoEgresso[index].egresso_id;
-                  if(contato_id === item.contato.id) descricao = valor;
-                  aux.push({egresso_id:egresso_id,  contato_id:item.contato.id, descricao:descricao})
+          props.lista_contato_egresso.map(
+              (item, index)=>{
+                if(item.contato.id == contato_id){
+                    item.descricao = valor
+                }
+                aux.push(item)
               }
           )  
-          
-          props.setContatoEgresso({lista: aux})     
-      }
-      const listar_contato = props.contatos.map(
-          item => { return(<div>
-              <div class="form-group row">
-                  <label  class="col-sm-3 col-form-label text-center">{item.contato.nome}</label>
-                  <div class="col-sm-9">
-                      <Form.Control  onChange={(e) => guardar_variaveis_inseridas(e.target.value, item.contato.id)}/>
-                  </div>
-              </div>
-              <br/>
-      </div>)});
+          setContatoEgressoList(aux)     
+        }
+        const listar_contato = props.lista_contato_egresso.map(
+            item => { return(<div>
+                <div class="form-group row">
+                    <label  class="col-sm-3 col-form-label text-center">{item.contato.nome}</label>
+                    <div class="col-sm-9">
+                        <Form.Control  onChange={(e) => guardar_variaveis_inseridas(e.target.value, item.contato.id)}/>
+                    </div>
+                </div><br/>
+            </div>
+        ) });
+
         return (
           <Modal
-            {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered>
-            <Modal.Header closeButton>
-              <Modal.Title id="contained-modal-title-vcenter">
-                contatos
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                  <Form>
-                      {listar_contato}
-                  </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={() => salvar_contato()}>Salvar</Button>
-            </Modal.Footer>
+              {...props}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered>
+              <Modal.Header closeButton>
+                  <Modal.Title id="contained-modal-title-vcenter">
+                    contatos
+                  </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                    <Form>
+                        {listar_contato}
+                    </Form>
+              </Modal.Body>
+              <Modal.Footer>
+                  <Button onClick={() => salvar_contato()}>Salvar</Button>
+              </Modal.Footer>
           </Modal>
         );
     }
@@ -78,10 +74,8 @@ function ContatoModal(props){
       <MyVerticallyCenteredModal
       show={modalShow}
       onHide={() => setModalShow(false)}
-      contatoEgresso={props.contatoEgresso}
-      setContatoEgresso={props.setContatoEgresso}
-      contatos={props.contatos}
       funcao_salvar={props.funcao_salvar}
+      lista_contato_egresso={props.lista_contato_egresso}
     />
     </div>
   )

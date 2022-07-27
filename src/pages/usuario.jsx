@@ -6,10 +6,10 @@ import Header from "../components/header";
 import Footer from "../components/footer";
 import EgressoService from '../EgressoService';
 import ContatosUsuario from '../components/usuario/contatos-usuario';
-import ContatoService from '../ContatoService';
 import DepoimentosUsuario from '../components/usuario/depoimentos-usuario';
 import EgressoModal from '../components/usuario/egresso-modal';
 import CursoUsuario from '../components/usuario/curso-usuario';
+import ProfissaoUsuario from '../components/usuario/profissao-usuario';
 
 function Usuario(){
     const { id } = useParams();
@@ -34,10 +34,11 @@ function Usuario(){
         serviceEgresso.editar(id, nome, email, cpf, resumo)
           .then( response => {
             Swal.fire('Dados atualizados com sucesso!', '', 'success').then((result) => {
-              window.location.reload();
+                window.location.reload();
             });
           }).catch (erro => {
-              console.log(erro.response)
+                alert(erro.response.data)
+                console.log(erro.response)
           })
     }
     return(
@@ -65,6 +66,10 @@ function Usuario(){
                     <Col lg={10}><div style={{fontSize: '1.2rem'}}>{state.dados_egresso.email}</div></Col>
                 </Row>
                 <Row >
+                    <Col lg={2}>CPF</Col>
+                    <Col lg={10}><div style={{fontSize: '1.2rem'}}>{state.dados_egresso.cpf}</div></Col>
+                </Row>
+                <Row >
                     <Col lg={2}>Resumo</Col>
                     <Col lg={10}><div style={{fontSize: '1.2rem'}}>{state.dados_egresso.resumo}</div></Col>
                 </Row>
@@ -75,6 +80,8 @@ function Usuario(){
             </section>
             <DepoimentosUsuario id_egresso={id}/>
             <CursoUsuario id_egresso={id}/>
+            <ContatosUsuario id_egresso={id}/>
+            <ProfissaoUsuario id_egresso={id}/>
         </Container>
     </div>
             <Footer/>

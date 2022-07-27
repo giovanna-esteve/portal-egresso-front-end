@@ -17,8 +17,6 @@ const service = new CursoEgressoService()
     useEffect(() => {
       service.listar(props.id_egresso)
         .then( response => {
-          console.log("lista_curso_egresso")
-            console.log(response.data)
             setState({lista_curso_egresso: response.data}) 
         }).catch (erro => {
             console.log(erro.response)
@@ -26,7 +24,7 @@ const service = new CursoEgressoService()
     }, []);
 //----------------------------------------------------------------------
   const [btn_add, setBtnAdd] = useState({acao:"cadastrar", variant:"secondary",texto:"+ novo"})
-  const [btn_edit, setBtnEdit] = useState({acao:"editar",texto:"editar"})
+  const [btn_edit, setBtnEdit] = useState({acao:"editar", variant:"dark",texto:"editar"})
 
     function salvarCursoEgresso(id_curso, data_inicio, data_conclusao)  {
       var curso_egresso = {id_egresso: props.id_egresso, id_curso:id_curso, data_inicio: data_inicio, data_conclusao: data_conclusao};
@@ -37,6 +35,7 @@ const service = new CursoEgressoService()
             });
         }).catch (erro => {
             console.log(erro.response)
+            alert(erro.response.data)
         })
     }
     function confirmarRemover(id_curso_egresso)  {
@@ -62,23 +61,35 @@ const service = new CursoEgressoService()
             }); 
           }).catch (erro => {
               console.log(erro.response)
+              alert(erro.response.data)
           })
       }
 
     const lista_cursos = state.lista_curso_egresso.map(
         (item) => {
+
+          var mes_inicio = (item.dataInicio[1]<10) ? '0'+item.dataInicio[1] : item.dataInicio[1];
+          var dia_inicio = (item.dataInicio[2]<10) ? '0'+item.dataInicio[2] : item.dataInicio[2];
+          var ano_inicio = item.dataInicio[0];
+          var data_inicio = dia_inicio+'/'+mes_inicio+'/'+ano_inicio;
+
+          var mes_conclusao = (item.dataConclusao[1]<10) ? '0'+item.dataConclusao[1] : item.dataConclusao[1];
+          var dia_conclusao = (item.dataConclusao[2]<10) ? '0'+item.dataConclusao[2] : item.dataConclusao[2];
+          var ano_conclusao = item.dataConclusao[0];
+          var data_conclusao = dia_conclusao+'/'+mes_conclusao+'/'+ano_conclusao;
+
             return(
               <tr key={item.id}>
                   <td>{item.curso.nome}</td>
                   <td>{item.curso.nivel}</td>
-                  <td>{item.dataInicio}</td>
-                  <td>{item.dataConclusao}</td>
-                  <td>
+                  <td>{data_inicio}</td>
+                  <td>{data_conclusao}</td>
+                  <td >
                   <div className="btn-group mx-3">
-                  <CursoModal botao={btn_edit} curso_egresso={item.curso} funcao_salvar={salvarCursoEgresso}/>
+                  <CursoModal botao={btn_edit} funcao_salvar={salvarCursoEgresso} curso_egresso={item.curso} data_inicio={ano_inicio+'-'+mes_inicio+'-'+dia_inicio}  data_conclusao={ano_conclusao+'-'+mes_conclusao+'-'+dia_conclusao}/>
                     </div>
                     <div className="btn-group ">
-                        <button onClick={() =>{confirmarRemover(item.id)}} type="button" className="btn btn-danger">Remover</button>
+                        <button onClick={() =>{confirmarRemover(item.id)}} type="button" className="btn btn-primary">x</button>
                     </div> 
                 </td>
               </tr>    
@@ -89,14 +100,14 @@ const service = new CursoEgressoService()
       <section>
         <Row className="pb-4 px-5 pt-3 mb-5" style={{ width: '60rem', marginLeft: 'auto', marginRight: 'auto', "backgroundColor": "#CE7762", color: '#000000', borderRadius: '10%'}}>
         <h4 className="py-3">Seus Cursos</h4>
-        <Table  >
+        <Table striped borderless>
             <thead>
                 <tr>
-                    <th>Curso</th>
-                    <th>Nível</th>
+                    <th >Curso</th>
+                    <th >Nível</th>
                     <th>Data inicio</th>
                     <th>Data conclusão</th>
-                    <th></th>
+                    <th width='160'  ></th>
                 </tr>
             </thead>
             <tbody>

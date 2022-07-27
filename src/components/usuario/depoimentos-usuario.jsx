@@ -23,7 +23,7 @@ const serviceDepoimento = new DepoimentoService()
 //----------------------- // busca os depoimentos do egresso -------------------------------------
 
     const [btn_add, setBtnAdd] = useState({acao:"cadastrar", variant:"secondary",texto:"+ novo"})
-    const [btn_edit, setBtnEdit] = useState({acao:"editar",texto:"editar"})
+    const [btn_edit, setBtnEdit] = useState({acao:"editar", variant:"dark",texto:"editar"})
 
     function cadastrarDepoimento(id, texto)  {
         serviceDepoimento.cadastrar(texto, props.id_egresso)
@@ -33,6 +33,7 @@ const serviceDepoimento = new DepoimentoService()
             });
         }).catch (erro => {
             console.log(erro.response)
+            alert(erro.response.data)
         })
     }
     function editarDepoimento(id, texto)  {
@@ -48,7 +49,7 @@ const serviceDepoimento = new DepoimentoService()
     }
     function confirmarRemover(id_depoimento)  {
         Swal.fire({  
-          title: 'Deletar contato?',  
+          title: 'Deletar depoimento?',  
           type: 'warning',  
           showCancelButton: true,  
           confirmButtonColor: '#3085d6',  
@@ -68,21 +69,27 @@ const serviceDepoimento = new DepoimentoService()
             }); 
           }).catch (erro => {
               console.log(erro.response)
+              alert(erro.response.data)
           })
       }
 
     const lista_depoimentos = state.depoimentos.map(
         (depoimento) => {
+          var mes = (depoimento.data[1]<10) ? '0'+depoimento.data[1] : depoimento.data[1];
+          var dia = (depoimento.data[2]<10) ? '0'+depoimento.data[2] : depoimento.data[2];
+          var ano = depoimento.data[0];
+          var data_formatada = dia+'/'+mes+'/'+ano;
             return(
                 <tr>
+                  <td className='text-center'>{data_formatada}</td>
                   <td>{depoimento.texto}</td>
-                    <td className='style="text-align:center;"'>
-                    <div className="btn-group mx-3">
-                    <DepoimentoModal botao={btn_edit} depoimento={depoimento} funcao_salvar={editarDepoimento} />
-                    </div>
-                    <div className="btn-group ">
-                        <button onClick={() =>{confirmarRemover(depoimento.id)}} type="button" className="btn btn-danger">Remover</button>
-                    </div> 
+                  <td >
+                      <div className="btn-group mx-3">
+                      <DepoimentoModal botao={btn_edit} depoimento={depoimento} funcao_salvar={editarDepoimento} />
+                      </div>
+                      <div className="btn-group ">
+                          <button onClick={() =>{confirmarRemover(depoimento.id)}} type="button" className="btn btn-primary">x</button>
+                      </div> 
                   </td>
                 </tr>   
     )});
@@ -93,7 +100,14 @@ const serviceDepoimento = new DepoimentoService()
       <section>
         <Row className="pb-4 px-5 pt-3 mb-5" style={{ width: '60rem', marginLeft: 'auto', marginRight: 'auto',  "backgroundColor": "#CE7762", color: '#000000', borderRadius: '10%'}}>
         <h4 className="py-3">Seus Depoimentos</h4>
-        <Table striped bordered >
+        <Table striped borderless>
+            <thead>
+                <tr>
+                    <th className='text-center' width='110'>Criado</th>
+                    <th>Depoimento</th>
+                    <th width='160'></th>
+                </tr>
+            </thead>
             <tbody>
             {lista_depoimentos}
             </tbody>

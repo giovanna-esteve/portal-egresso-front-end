@@ -12,8 +12,6 @@ function CursoModal(props){
   useEffect(() => {
       serviceCurso.listar()
       .then( response => {
-          console.log("cursos")
-          console.log(response.data)
           setState({cursos: response.data})
       }).catch (erro => {
           console.log(erro.response)
@@ -22,20 +20,18 @@ function CursoModal(props){
 //----------- // produz lista de cursos-------------------
 
     function MyVerticallyCenteredModal(props) {
-        const [idCurso, setIdCurso] = useState()
-        const [dataInicio, setDataInicio] = useState()
-        const [dataConclusao, setDataConclusao] = useState()
-        const [teste, setTeste] = useState(props.curso_egresso)
-        
-        
+        const [idCurso, setIdCurso] = useState(props.curso_egresso.id)
+        const [dataInicio, setDataInicio] = useState(props.data_inicio)
+        const [dataConclusao, setDataConclusao] = useState(props.data_conclusao)
+          
         function salvar(){
           props.funcao_salvar(idCurso, dataInicio,dataConclusao);
           setModalShow(false)
         }
 
-        const select_curso = props.cursos.map(
+        const select_curso = state.cursos.map(
           curso => {return(<option value={curso.id}>{curso.nome} - {curso.nivel}</option>)}
-      )
+        )
         return (
           <Modal
             {...props}
@@ -53,7 +49,7 @@ function CursoModal(props){
             <Col xs={12} >
                 <Form.Group as={Col} controlId="">
                 <Form.Label>Selecione um curso <span className="black">*</span></Form.Label>
-                <Form.Select value={props.curso_egresso.id}  onChange={(e) => setIdCurso(e.target.value)}>
+                <Form.Select value={idCurso}  onChange={(e) => setIdCurso(e.target.value)}>
                     <option>Escolha uma opção...</option>
                     {select_curso}
                 </Form.Select>
@@ -64,13 +60,13 @@ function CursoModal(props){
             <Col xs={6} >
                 <Form.Group as={Col} controlId="">
                 <Form.Label>Data inicio <span className="black">*</span></Form.Label>
-                <Form.Control type="date"  onChange={(e) => setDataInicio(e.target.value)}/>
+                <Form.Control type="date" value={dataInicio}  onChange={(e) => setDataInicio(e.target.value)}/>
                 </Form.Group>
             </Col>
             <Col xs={6} >
                 <Form.Group as={Col} controlId="">
                 <Form.Label>Data conclusão <span className="black">*</span></Form.Label>
-                <Form.Control type="date" onChange={(e) => setDataConclusao(e.target.value)}/>
+                <Form.Control type="date" value={dataConclusao} onChange={(e) => setDataConclusao(e.target.value)}/>
                 </Form.Group>
             </Col>
         </Row>
@@ -92,8 +88,9 @@ function CursoModal(props){
       <MyVerticallyCenteredModal
       show={modalShow}
       onHide={() => setModalShow(false)}
-      cursos={state.cursos}
       curso_egresso={props.curso_egresso}
+      data_inicio={props.data_inicio}
+      data_conclusao={props.data_conclusao}
       funcao_salvar={props.funcao_salvar}
     />
     </div>

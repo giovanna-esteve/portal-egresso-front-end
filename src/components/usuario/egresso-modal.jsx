@@ -42,7 +42,7 @@ function EgressoModal(props){
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGridPassword" className="mb-3">
                     <Form.Label>CPF <span className="black">*</span></Form.Label>
-                    <Form.Control value={cpf} onChange={(e) => setCpf(e.target.value)}/>
+                    <Form.Control disabled value={cpf} onChange={(e) => setCpf(e.target.value)}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                     <Form.Label>Resumo</Form.Label>

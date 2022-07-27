@@ -32,6 +32,7 @@ function Cadastro(){
         var contatoEgressoList = contatoEgresso.lista;
         var obj4 = { contatoEgressoList};
         var obj5 = { usuario};
+
         var dados_cadastro = Object.assign({}, obj1, obj2, obj3, obj4, obj5);
     
         console.log(dados_cadastro)
