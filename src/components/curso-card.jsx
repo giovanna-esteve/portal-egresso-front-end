@@ -6,16 +6,20 @@ function CursoCard (props){
     const getDataInicio = function(data){
 
         if(data){
-            return (<p>Data Inicio: {data} </p>)
+            return (<p>Data Inicio: {dateView(data)} </p>)
         }
         return;
     }
     const getDataConclusao = function(data){
 
         if(data){
-            return (<p>Data Conclusao: {data} </p>)
+            return (<p>Data Conclusao: {dateView(data)} </p>)
         }
         return;
+    }
+
+    const dateView = (date) => {
+        return `${date[2]}/${date[1]}/${date[0]}`;
     }
 
     return (
