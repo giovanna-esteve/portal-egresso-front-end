@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import EgressoService from "../EgressoService";
 import DepoimentoService from "../DepoimentoService";
 import CursoEgressoService from "../CursoEgressoService";
+import ContatoEgressoService from "../ContatoEgressoService";
 
 
 
@@ -21,6 +22,8 @@ function Egresso(){
     const service = new EgressoService();
     const depoimentoService = new DepoimentoService();
     const cursoEgressoService = new CursoEgressoService();
+    const contatoEgressoService = new ContatoEgressoService();
+
     const parseCursoEgressoToCurso = (ce) => {
         let c = {...ce.curso};
         c.dataInicio = ce.dataInicio
@@ -28,10 +31,17 @@ function Egresso(){
         return c;
     }
 
-    const [state, setState] = useState({egressos : []});
+    const parseContatoEgressoToContato = (ce) => {
+        let c = {...ce.contato};
+        c.text = ce.descricao
+        c.icon = ce.url_logo
+        return c;
+    }
+
     const [egresso, setEgresso] = useState({});
     const [depoimentos, setDepoimentos] = useState([]);
     const [cursos, setCursos] = useState([]);
+    const [contatos, setContatos] = useState([]);
 
     useEffect( ()=>{
         service.busca_dados_pagina_egresso(id)
@@ -52,6 +62,13 @@ function Egresso(){
         }).catch (erro => {
             console.log(erro.response)
         })
+        contatoEgressoService.listar(id)
+        .then( response => {
+            setContatos(response.data.map(parseContatoEgressoToContato));
+        }).catch (erro => {
+            console.log(erro.response)
+        })
+
     }, [])
 
     var SliderDefaultsettings = {
@@ -98,10 +115,7 @@ function Egresso(){
                     <Container className="pb-3">
                         <h2 style={{"paddingBottom": "2rem"}}>Meus Contatos</h2>
                         <Slider {...SliderDefaultsettings}>
-                            <ContatoCard icon='linkedin' text='@joao'/>
-                            <ContatoCard icon='facebook' text='@joaoCarls'/>
-                            <ContatoCard icon='instagran' text='@joao991'/>
-                            <ContatoCard icon='twitter' text='@jao'/>
+                            {contatos.map((cont)=> { return <ContatoCard contato={cont}/>})}
                         </Slider>
                     </Container>
 
