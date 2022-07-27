@@ -4,15 +4,19 @@ import Header from "../header";
 import Footer from "../footer";
 import { Modal } from "react-bootstrap";
 
+import {salvar_administrador} from '../../js/page_administrador/adm';
+
+
 function AdmModal(props){
+    const [acao] = useState(props.botao.texto)
 
     function MyVerticallyCenteredModal(props) {
-        const [nome, setNome] = useState(props.adm.nome)
-        const [email, setEmail] = useState(props.adm.email)
+        const [nome, setNome] = useState()
+        const [email, setEmail] = useState()
         const [senha, setSenha] = useState()
         
-        function salvar_administrador(){
-          props.funcao_salvar(id, nome, email, senha);
+        function salvar(){
+          salvar_administrador(nome, email, senha);
           setModalShow(false)
         }
         return (
@@ -23,7 +27,7 @@ function AdmModal(props){
             centered>
             <Modal.Header closeButton>
               <Modal.Title id="contained-modal-title-vcenter">
-                {props.acao} faixa salario
+                {acao} faixa salario
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -55,14 +59,13 @@ function AdmModal(props){
               </Form>      
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => salvar_administrador()}>Salvar</Button>
+              <Button onClick={() => salvar()}>Salvar</Button>
             </Modal.Footer>
           </Modal>
         );
     }
 
   const [modalShow, setModalShow] = React.useState(false);
-  const [id, setId] = useState(props.adm.id)
   return(
     <div>
       <a>
@@ -71,9 +74,6 @@ function AdmModal(props){
       <MyVerticallyCenteredModal
       show={modalShow}
       onHide={() => setModalShow(false)}
-      adm={props.adm}
-      funcao_salvar={props.funcao_salvar}
-      acao={props.botao.texto}
     />
     </div>
   )

@@ -5,12 +5,14 @@ import { Button,Col, Container, Row, Form,  Card, Table} from "react-bootstrap";
 import ContatoEgressoService from '../../ContatoEgressoService';
 import ContatoModal from './contato-model';
 
+import {btn_add} from '../../js/page_usuario/contato'
+
 
 function ContatosUsuario(props){
-//----------------------------------------------------------------------
-const [state, setState] = useState({lista_contato_egresso: []});
-const service = new ContatoEgressoService()
 
+    // lista os contatos do egresso
+    const [state, setState] = useState({lista_contato_egresso: []});
+    const service = new ContatoEgressoService()
     useEffect(() => {
       service.listar(props.id_egresso)
         .then( response => {
@@ -19,29 +21,13 @@ const service = new ContatoEgressoService()
             console.log(erro.response)
         })
     }, []);
-//----------------------------------------------------------------------
-
-
-    function salvarContatoEgresso(contatoEgressoList)  {
-        service.cadastrar(contatoEgressoList)
-            .then( response => {
-                Swal.fire('Contato salvo com sucesso!', '', 'success').then((result) => {
-                    window.location.reload();
-                });
-            }).catch (erro => {
-                console.log(erro.response)
-                alert(erro.response.data)
-            })
-    }
-
-    const [btn_add, setBtnAdd] = useState({acao:"cadastrar", variant:"dark",texto:"editar os contatos"})
 
     const lista_contatos = state.lista_contato_egresso.map(
         (item) => {
             return(
             <tr>
                 <th width="160" >{item.contato.nome}:</th>
-                <td >{item.descricao}:</td>
+                <td >{item.descricao}</td>
             </tr>   
     )});
 
@@ -59,7 +45,7 @@ const service = new ContatoEgressoService()
             </Table>
             </div>
             <div>
-                <ContatoModal botao={btn_add} id_egresso={props.id_egresso} funcao_salvar={salvarContatoEgresso} lista_contato_egresso={state.lista_contato_egresso} />
+                <ContatoModal botao={btn_add} lista_contato_egresso={state.lista_contato_egresso} />
             </div>
             </Row>
         </section>

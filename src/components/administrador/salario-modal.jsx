@@ -4,13 +4,16 @@ import Header from "../header";
 import Footer from "../footer";
 import { Modal } from "react-bootstrap";
 
+import { salvar_salario } from '../../js/page_administrador/salario';
+
 function SalarioModal(props){
+    const [acao] = useState(props.botao.texto)
 
     function MyVerticallyCenteredModal(props) {
         const [descricao, setDescricao] = useState(props.salario.descricao)
         
-        function salvar_salario(){
-          props.funcao_salvar(id, descricao);
+        function salvar(){
+          salvar_salario(acao, id, descricao);
           setModalShow(false)
         }
         return (
@@ -21,7 +24,7 @@ function SalarioModal(props){
             centered>
             <Modal.Header closeButton>
               <Modal.Title id="contained-modal-title-vcenter">
-                {props.acao} faixa salario
+                {acao} faixa salario
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -37,7 +40,7 @@ function SalarioModal(props){
               </Form>      
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => salvar_salario()}>Salvar</Button>
+              <Button onClick={() => salvar()}>Salvar</Button>
             </Modal.Footer>
           </Modal>
         );
@@ -54,8 +57,6 @@ function SalarioModal(props){
       show={modalShow}
       onHide={() => setModalShow(false)}
       salario={props.salario}
-      funcao_salvar={props.funcao_salvar}
-      acao={props.botao.texto}
     />
     </div>
   )

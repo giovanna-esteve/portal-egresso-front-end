@@ -1,6 +1,7 @@
 import React from "react";
 import {Card, Button } from "react-bootstrap";
 import Image from 'react-bootstrap/Image';
+import img_man from '../images/img_man.svg'
 
 function DepoimentoCard (props){
 
@@ -19,7 +20,7 @@ function DepoimentoCard (props){
                                 className="me-2"
                                 height={"30px"} 
                                 width={"30px"}
-                                src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" />
+                                src={img_man}  />
                         <h3>{props.depoimento.egresso.nome}</h3>
                     </div>
                     <p className="fs-6 fw-light">{dateView(props.depoimento.data)}</p>

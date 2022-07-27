@@ -15,14 +15,12 @@ function Header(){
 
     useEffect( ()=>{
         usuarioService.usuarioAtual().then( response => {
-            console.log(response.data);
             setAdm(response.data.adm == 1)
             setUserId(response.data.id)
         }).catch (erro => {
             console.log(erro.response)
         })
         egressoService.egressoAtual().then( response => {
-            setEgressoId(response.data.id);
             console.log(response.data.id);
         }).catch (erro => {
             console.log(erro.response)

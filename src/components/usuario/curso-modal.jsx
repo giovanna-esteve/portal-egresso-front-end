@@ -1,34 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, Row, Col, Form, Table, Card} from "react-bootstrap";
-import Header from "../header";
-import Footer from "../footer";
 import { Modal } from "react-bootstrap";
 import CursoService from '../../CursoService';
 
-function CursoModal(props){
-  //-----------produz lista de cursos-------------------
-  const [state, setState] = useState({cursos: []});
-  const serviceCurso = new CursoService()
-  useEffect(() => {
-      serviceCurso.listar()
-      .then( response => {
-          setState({cursos: response.data})
-      }).catch (erro => {
-          console.log(erro.response)
-      })
-  }, []);
-//----------- // produz lista de cursos-------------------
+import {salvar_curso} from '../../js/page_usuario/curso'
 
-    function MyVerticallyCenteredModal(props) {
+function CursoModal(props){
+      const [id_egresso] = useState(props.id_egresso);
+      
+      // listar cursos
+      const [state, setState] = useState({cursos: []});
+      const serviceCurso = new CursoService()
+      useEffect(() => {
+          serviceCurso.listar()
+          .then( response => {
+              setState({cursos: response.data})
+          }).catch (erro => {
+              console.log(erro.response)
+          })
+      }, []);
+
+
+    function MyVerticallyCenteredModal(props) {   
         const [idCurso, setIdCurso] = useState(props.curso_egresso.id)
         const [dataInicio, setDataInicio] = useState(props.data_inicio)
         const [dataConclusao, setDataConclusao] = useState(props.data_conclusao)
-          
+
         function salvar(){
-          props.funcao_salvar(idCurso, dataInicio,dataConclusao);
+          var curso_egresso = {id_egresso: id_egresso, id_curso:idCurso, data_inicio: dataInicio, data_conclusao: dataConclusao};
+          salvar_curso(curso_egresso);
           setModalShow(false)
         }
-
+        
         const select_curso = state.cursos.map(
           curso => {return(<option value={curso.id}>{curso.nome} - {curso.nivel}</option>)}
         )
@@ -49,7 +52,7 @@ function CursoModal(props){
             <Col xs={12} >
                 <Form.Group as={Col} controlId="">
                 <Form.Label>Selecione um curso <span className="black">*</span></Form.Label>
-                <Form.Select value={idCurso}  onChange={(e) => setIdCurso(e.target.value)}>
+                <Form.Select value={idCurso} onChange={(e) => setIdCurso(e.target.value)}>
                     <option>Escolha uma opção...</option>
                     {select_curso}
                 </Form.Select>
@@ -91,7 +94,7 @@ function CursoModal(props){
       curso_egresso={props.curso_egresso}
       data_inicio={props.data_inicio}
       data_conclusao={props.data_conclusao}
-      funcao_salvar={props.funcao_salvar}
+      id_egresso={props.id_egresso}
     />
     </div>
   )

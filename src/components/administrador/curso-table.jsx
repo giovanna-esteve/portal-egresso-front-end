@@ -8,62 +8,9 @@ import { Modal } from "react-bootstrap";
 import CursoModal from "./curso-modal";
 import CursoService from '../../CursoService';
 
+import { btn_add, btn_edit, confirmar_remover } from '../../js/page_administrador/curso';
+
 function CursoTable(props){
-
-    const service = new CursoService()
-
-    function cadastrarCurso(id, nome, nivel)  {
-      service.cadastrar(nome, nivel)
-        .then( response => {
-          Swal.fire('Curso cadastrado com sucesso!', '', 'success').then((result) => {
-            window.location.reload();
-          });
-        }).catch (erro => {
-            console.log(erro.response)
-        })
-    }
-    function editarCurso(id, nome, nivel)  {
-      service.editar(id, nome, nivel)
-        .then( response => {
-          Swal.fire('Curso editado com sucesso!', '', 'success').then((result) => {
-            window.location.reload();
-          });
-        }).catch (erro => {
-          console.log(erro.response)
-          alert(erro.response.data)
-        })
-      
-    }
-
-    function confirmarRemover(id)  {
-      Swal.fire({  
-        title: 'Removar curso?',  
-        type: 'warning',  
-        showCancelButton: true,  
-        confirmButtonColor: '#3085d6',  
-        cancelButtonColor: '#d33',  
-        confirmButtonText: 'Yes!'  
-      }).then((result) => {  
-        if (result.isConfirmed){
-          removerCurso(id)
-        }
-      });
-    }
-    function removerCurso(id)  {
-      service.remover(id)
-        .then( response => {
-          Swal.fire('Curso removido com sucesso.', '', 'success').then((result) => {
-            window.location.reload();
-          });
-        }).catch (erro => {
-            console.log(erro.response)
-            alert(erro.response.data)
-        })
-      
-    }
-
-  const [btn_add, setBtnAdd] = useState({classe:"btn btn-primary mt-3",texto:"Cadastrar"})
-  const [btn_edit, setBtnEdit] = useState({classe:"btn btn-warning",texto:"Editar"})
 
   const row = props.cursos.map(
     curso => {
@@ -74,10 +21,10 @@ function CursoTable(props){
           <td>{curso.nivel}</td>                  
           <td>
               <div className="btn-group mx-3">
-                  <CursoModal botao={btn_edit} curso={curso} funcao_salvar={editarCurso}/>
+                  <CursoModal botao={btn_edit} curso={curso}/>
               </div>          
               <div className="btn-group ">
-                  <button onClick={() =>{ confirmarRemover(curso.id)}} type="button" className="btn btn-danger">Remover</button>
+                  <button onClick={() =>{ confirmar_remover(curso.id)}} type="button" className="btn btn-danger">Remover</button>
               </div>                   
           </td>
         </tr>
@@ -100,7 +47,7 @@ function CursoTable(props){
             {row}
           </tbody>
           <tfoot>
-              <CursoModal botao={btn_add} curso="" funcao_salvar={cadastrarCurso}/>
+              <CursoModal botao={btn_add} curso="" />
           </tfoot>
       </table>
       

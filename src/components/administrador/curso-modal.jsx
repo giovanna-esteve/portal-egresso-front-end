@@ -4,14 +4,18 @@ import Header from "../header";
 import Footer from "../footer";
 import { Modal } from "react-bootstrap";
 
+import { salvar_curso } from '../../js/page_administrador/curso';
+
 function CursoModal(props){
+    const [acao] = useState(props.botao.texto)
+    const [id_curso] = useState(props.curso.id)
 
     function MyVerticallyCenteredModal(props) {
         const [nome, setNome] = useState(props.curso.nome)
         const [nivel, setNivel] = useState(props.curso.nivel)
         
-        function salvar_curso(){
-          props.funcao_salvar(id, nome, nivel);
+        function salvar(){
+          salvar_curso(acao, id_curso, nome, nivel);
           setModalShow(false)
         }
         return (
@@ -22,7 +26,7 @@ function CursoModal(props){
             centered>
             <Modal.Header closeButton>
               <Modal.Title id="contained-modal-title-vcenter">
-                {props.acao} curso
+                {acao} curso
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -46,14 +50,14 @@ function CursoModal(props){
               </Form>      
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => salvar_curso()}>Salvar</Button>
+              <Button onClick={() => salvar()}>Salvar</Button>
             </Modal.Footer>
           </Modal>
         );
     }
 
   const [modalShow, setModalShow] = React.useState(false);
-  const [id, setId] = useState(props.curso.id)
+  
   return(
     <div>
       <a>
@@ -63,8 +67,6 @@ function CursoModal(props){
       show={modalShow}
       onHide={() => setModalShow(false)}
       curso={props.curso}
-      funcao_salvar={props.funcao_salvar}
-      acao={props.botao.texto}
     />
     </div>
   )

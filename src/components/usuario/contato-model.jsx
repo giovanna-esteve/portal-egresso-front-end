@@ -4,17 +4,19 @@ import Header from "../header";
 import Footer from "../footer";
 import { Modal } from "react-bootstrap";
 
+import {salvar_contato} from '../../js/page_usuario/contato'
+
 function ContatoModal(props){
 
     function MyVerticallyCenteredModal(props) {
         const [contatoEgressoList, setContatoEgressoList] = useState();
        
-        function salvar_contato(){
-          props.funcao_salvar(contatoEgressoList);
+        function salvar(){
+          salvar_contato(contatoEgressoList)
           setModalShow(false)
         }
 
-        function guardar_variaveis_inseridas(valor,contato_id){
+        function guardar(valor,contato_id){
           var aux = []
           props.lista_contato_egresso.map(
               (item, index)=>{
@@ -31,7 +33,7 @@ function ContatoModal(props){
                 <div class="form-group row">
                     <label  class="col-sm-3 col-form-label text-center">{item.contato.nome}</label>
                     <div class="col-sm-9">
-                        <Form.Control  onChange={(e) => guardar_variaveis_inseridas(e.target.value, item.contato.id)}/>
+                        <Form.Control value={item.descricao}  onChange={(e) => guardar(e.target.value, item.contato.id)}/>
                     </div>
                 </div><br/>
             </div>
@@ -54,7 +56,7 @@ function ContatoModal(props){
                     </Form>
               </Modal.Body>
               <Modal.Footer>
-                  <Button onClick={() => salvar_contato()}>Salvar</Button>
+                  <Button onClick={() => salvar()}>Salvar</Button>
               </Modal.Footer>
           </Modal>
         );
@@ -74,10 +76,11 @@ function ContatoModal(props){
       <MyVerticallyCenteredModal
       show={modalShow}
       onHide={() => setModalShow(false)}
-      funcao_salvar={props.funcao_salvar}
       lista_contato_egresso={props.lista_contato_egresso}
     />
     </div>
   )
 }
 export default ContatoModal;
+
+

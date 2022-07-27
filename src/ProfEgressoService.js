@@ -8,8 +8,16 @@ class ProfEgressoService extends ApiService {
         return this.get(`/listar?id_egresso=${id_egresso}`)
     }
 
-    cadastrar(id, empresa, descricao, cargoId, salarioId) {
-        return this.post(`/cadastrar?id=${id}&empresa=${empresa}&descricao=${descricao}&cargoId=${cargoId}&salarioId=${salarioId}`)
+    cadastrar(id_egresso, empresa, descricao, cargoId, salarioId) {
+        return this.post(`/cadastrar?id_egresso=${id_egresso}&empresa=${empresa}&descricao=${descricao}&cargoId=${cargoId}&salarioId=${salarioId}`)
+    }
+
+    editar(id, id_egresso, empresa, descricao, cargoId, salarioId) {
+        return this.post(`/editar?id=${id}&id_egresso=${id_egresso}&empresa=${empresa}&descricao=${descricao}&cargoId=${cargoId}&salarioId=${salarioId}`)
+    }
+
+    remover(id) {
+        return this.post(`/remover?id=${id}`)
     }
 
 }

@@ -6,9 +6,14 @@ import { Modal } from "react-bootstrap";
 import CargoService from '../../CargoService';
 import FaixaSalarioService from '../../FaixaSalarioService';
 
+import {salvar_profissao} from '../../js/page_usuario/profissao'
+
 
 function ProfissaoModal(props){
-//-----------produz lista de cargos e faixa salario -------------------
+    const [acao] = useState(props.acao);
+    const [id_egresso] = useState(props.id_egresso);
+
+    // lista todos os cargos
     const [cargos, setCargos] = useState({lista: []});
     const serviceCargo = new CargoService()
     useEffect(() => {
@@ -19,6 +24,7 @@ function ProfissaoModal(props){
             console.log(erro.response)
         })
     }, []);
+    // lista todas as faixas salariais
     const [salarios, setSalarios] = useState({lista: []});
     const serviceFaixaSalario = new FaixaSalarioService()
     useEffect(() => {
@@ -29,17 +35,17 @@ function ProfissaoModal(props){
             console.log(erro.response)
         })
     }, []);
-//----------- // produz lista de cargos e faixa salario -------------------
 
 
     function MyVerticallyCenteredModal(props) {
+        const [id_profissao, setId] = useState(props.profissoes.id);
         const [empresa, setEmpresa] = useState(props.profissoes.empresa);
         const [descricao, setDescricao] = useState(props.profissoes.descricao);
         const [cargoId, setCargoId] = useState(props.cargo.id);
         const [salarioId, setSalarioId] = useState(props.salario.id);
        
-        function salvar_contato(){
-          props.funcao_salvar(empresa, descricao, cargoId, salarioId);
+        function salvar(){
+          salvar_profissao(acao, id_profissao, id_egresso, empresa, descricao, cargoId, salarioId);
           setModalShow(false)
         }
 
@@ -96,7 +102,7 @@ function ProfissaoModal(props){
               </Form>
               </Modal.Body>
               <Modal.Footer>
-                  <Button onClick={() => salvar_contato()}>Salvar</Button>
+                  <Button onClick={() => salvar()}>Salvar</Button>
               </Modal.Footer>
           </Modal>
         );
@@ -118,7 +124,6 @@ function ProfissaoModal(props){
       profissoes={props.profissoes}
       cargo={props.cargo}
       salario={props.salario}
-      funcao_salvar={props.funcao_salvar}
     />
     </div>
   )

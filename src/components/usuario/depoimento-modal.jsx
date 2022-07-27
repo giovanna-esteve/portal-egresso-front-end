@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { Container, Button, Row, Col, Form, Table, Card} from "react-bootstrap";
-import Header from "../header";
-import Footer from "../footer";
 import { Modal } from "react-bootstrap";
 
+import {salvar_depoimento} from '../../js/page_usuario/depoimento'
+
 function DepoimentoModal(props){
+    const [id_egresso] = React.useState(props.id_egresso);
+    const [acao] = React.useState(props.acao);
 
     function MyVerticallyCenteredModal(props) {
         const [texto, setTexto] = useState(props.depoimento.texto)
-        const [id, setId] = useState(props.depoimento.id)
-        
-        function salvar_depoimento(){
-          props.funcao_salvar(id, texto);
+        const [id_depoimento, setId] = useState(props.depoimento.id)
+
+        function salvar(){
+          salvar_depoimento(acao, id_depoimento,  texto, id_egresso)
           setModalShow(false)
         }
+        
         return (
           <Modal
             {...props}
@@ -34,7 +37,7 @@ function DepoimentoModal(props){
               </Form>      
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => salvar_depoimento()}>Salvar</Button>
+              <Button onClick={() => {salvar() }}>Salvar</Button>
             </Modal.Footer>
           </Modal>
         );
@@ -50,7 +53,6 @@ function DepoimentoModal(props){
       show={modalShow}
       onHide={() => setModalShow(false)}
       depoimento={props.depoimento}
-      funcao_salvar={props.funcao_salvar}
     />
     </div>
   )

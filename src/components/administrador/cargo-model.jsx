@@ -4,14 +4,18 @@ import Header from "../header";
 import Footer from "../footer";
 import { Modal } from "react-bootstrap";
 
+import { salvar_cargo } from '../../js/page_administrador/cargo';
+
 function CargoModal(props){
+    const [acao, setNome] = useState(props.botao.texto)
+    const [id_cargo, setId] = useState(props.cargo.id)
 
     function MyVerticallyCenteredModal(props) {
         const [nome, setNome] = useState(props.cargo.nome)
         const [descricao, setDescricao] = useState(props.cargo.descricao)
         
-        function salvar_cargo(){
-          props.funcao_salvar(id, nome, descricao);
+        function salvar(){
+          salvar_cargo(acao, id_cargo, nome, descricao);
           setModalShow(false)
         }
         return (
@@ -22,7 +26,7 @@ function CargoModal(props){
             centered>
             <Modal.Header closeButton>
               <Modal.Title id="contained-modal-title-vcenter">
-                {props.acao} cargo
+                {acao} cargo
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -46,14 +50,13 @@ function CargoModal(props){
               </Form>      
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => salvar_cargo()}>Salvar</Button>
+              <Button onClick={() => salvar()}>Salvar</Button>
             </Modal.Footer>
           </Modal>
         );
     }
 
   const [modalShow, setModalShow] = React.useState(false);
-  const [id, setId] = useState(props.cargo.id)
   return(
     <div>
       <a>
@@ -63,8 +66,6 @@ function CargoModal(props){
       show={modalShow}
       onHide={() => setModalShow(false)}
       cargo={props.cargo}
-      funcao_salvar={props.funcao_salvar}
-      acao={props.botao.texto}
     />
     </div>
   )

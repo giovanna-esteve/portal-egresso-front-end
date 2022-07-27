@@ -1,17 +1,16 @@
-import { formControlLabelClasses } from '@mui/material';
 import React, { useState, useEffect  } from 'react';
-import Swal from "sweetalert2"; 
 import { Container, Button, Row, Col, Form, Table} from "react-bootstrap";
-import ContatoEgressoService from '../../ContatoEgressoService';
 import DepoimentoService from '../../DepoimentoService';
 import DepoimentoModal from './depoimento-modal';
+import {btn_add, btn_edit } from '../../js/page_usuario/usuario'
 
+import {confirmar_remover} from '../../js/page_usuario/depoimento'
 
 function DepoimentosUsuario(props){
-//--------------------- busca os depoimentos do egresso ---------------------------------------
-const [state, setState] = useState({depoimentos: []});
-const serviceDepoimento = new DepoimentoService()
 
+    // lista de depoimentos do egresso
+    const [state, setState] = useState({depoimentos: []});
+    const serviceDepoimento = new DepoimentoService()
     useEffect(() => {
         serviceDepoimento.listar(props.id_egresso)
         .then( response => {
@@ -20,58 +19,6 @@ const serviceDepoimento = new DepoimentoService()
             console.log(erro.response)
         })
     }, []);
-//----------------------- // busca os depoimentos do egresso -------------------------------------
-
-    const [btn_add, setBtnAdd] = useState({acao:"cadastrar", variant:"secondary",texto:"+ novo"})
-    const [btn_edit, setBtnEdit] = useState({acao:"editar", variant:"dark",texto:"editar"})
-
-    function cadastrarDepoimento(id, texto)  {
-        serviceDepoimento.cadastrar(texto, props.id_egresso)
-        .then( response => {
-            Swal.fire('Depoimento cadastrado com sucesso!', '', 'success').then((result) => {
-                window.location.reload();
-            });
-        }).catch (erro => {
-            console.log(erro.response)
-            alert(erro.response.data)
-        })
-    }
-    function editarDepoimento(id, texto)  {
-        serviceDepoimento.editar(id, texto)
-          .then( response => {
-            Swal.fire('Depoimento editado com sucesso!', '', 'success').then((result) => {
-              window.location.reload();
-            });
-          }).catch (erro => {
-            console.log(erro.response)
-            alert(erro.response.data)
-          })
-    }
-    function confirmarRemover(id_depoimento)  {
-        Swal.fire({  
-          title: 'Deletar depoimento?',  
-          type: 'warning',  
-          showCancelButton: true,  
-          confirmButtonColor: '#3085d6',  
-          cancelButtonColor: '#d33',  
-          confirmButtonText: 'Yes!'  
-        }).then((result) => {  
-          if (result.isConfirmed){
-            removerDepoimento(id_depoimento)
-          }
-        });
-      }
-      function removerDepoimento(id_depoimento)  {
-        serviceDepoimento.remover(id_depoimento)
-          .then( response => {
-            Swal.fire('Depoimento removido.', '', 'success').then((result) => {
-              window.location.reload();
-            }); 
-          }).catch (erro => {
-              console.log(erro.response)
-              alert(erro.response.data)
-          })
-      }
 
     const lista_depoimentos = state.depoimentos.map(
         (depoimento) => {
@@ -85,10 +32,10 @@ const serviceDepoimento = new DepoimentoService()
                   <td>{depoimento.texto}</td>
                   <td >
                       <div className="btn-group mx-3">
-                      <DepoimentoModal botao={btn_edit} depoimento={depoimento} funcao_salvar={editarDepoimento} />
+                      <DepoimentoModal botao={btn_edit} depoimento={depoimento} acao="editar" id_egresso={props.id_egresso}/>
                       </div>
                       <div className="btn-group ">
-                          <button onClick={() =>{confirmarRemover(depoimento.id)}} type="button" className="btn btn-primary">x</button>
+                          <button onClick={() =>{confirmar_remover(depoimento.id)}} type="button" className="btn btn-primary">x</button>
                       </div> 
                   </td>
                 </tr>   
@@ -113,7 +60,7 @@ const serviceDepoimento = new DepoimentoService()
             </tbody>
         </Table>
         <div className="  ">
-                <DepoimentoModal botao={btn_add} depoimento="" funcao_salvar={cadastrarDepoimento} />
+                <DepoimentoModal botao={btn_add} depoimento="" acao="cadastrar" id_egresso={props.id_egresso} />
             </div>
         </Row>
       </section>

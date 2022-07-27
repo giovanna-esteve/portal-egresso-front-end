@@ -7,59 +7,12 @@ import { Modal } from "react-bootstrap";
 import SalarioModal from './salario-modal';
 import FaixaSalarioService from '../../FaixaSalarioService';
 
+import { btn_add, btn_edit, confirmar_remover } from '../../js/page_administrador/salario';
+
 
 function SalarioTable(props){
 
-    const service = new FaixaSalarioService()
-
-    function cadastrarSalario(id, descricao)  {
-      service.cadastrar(descricao)
-        .then( response => {
-          Swal.fire('Faixa Salario cadastrado com sucesso!', '', 'success').then((result) => {
-            window.location.reload();
-          });
-        }).catch (erro => {
-            console.log(erro.response)
-        })
-    }
-
-    function confirmarRemover(id)  {
-      Swal.fire({  
-        title: 'Removar Faixa Salario?',  
-        type: 'warning',  
-        showCancelButton: true,  
-        confirmButtonColor: '#3085d6',  
-        cancelButtonColor: '#d33',  
-        confirmButtonText: 'Yes!'  
-      }).then((result) => {  
-        if (result.isConfirmed){
-          removerSalario(id)
-        }
-      });
-    }
-    function removerSalario(id)  {
-      service.remover(id)
-        .then( response => {
-          Swal.fire('Faixa Salario removido com sucesso.', '', 'success').then((result) => {
-            window.location.reload();
-          });
-        }).catch (erro => {
-            console.log(erro.response)
-        })
-    }
-    function editarSalario(id, descricao)  {
-      service.editar(id, descricao)
-        .then( response => {
-          Swal.fire('Faixa Salario editado com sucesso!', '', 'success').then((result) => {
-            window.location.reload();
-          });
-        }).catch (erro => {
-            console.log(erro.response)
-        })
-    }
-
-  const [btn_add, setBtnAdd] = useState({classe:"btn btn-primary mt-3",texto:"Cadastrar"})
-  const [btn_edit, setBtnEdit] = useState({classe:"btn btn-warning",texto:"Editar"})
+    
 
   const row = props.salarios.map(
     salario => {
@@ -69,10 +22,10 @@ function SalarioTable(props){
           <td>{salario.descricao}</td>                  
           <td>
               <div className="btn-group mx-3">
-                <SalarioModal botao={btn_edit} salario={salario} funcao_salvar={editarSalario}/>
+                <SalarioModal botao={btn_edit} salario={salario}/>
               </div>          
               <div className="btn-group ">
-                  <button onClick={() => confirmarRemover(salario.id)} type="button" className="btn btn-danger">Remover</button>
+                  <button onClick={() => confirmar_remover(salario.id)} type="button" className="btn btn-danger">Remover</button>
               </div>                   
           </td>
         </tr>
@@ -94,7 +47,7 @@ function SalarioTable(props){
           {row}
         </tbody>
         <tfoot>
-            <SalarioModal botao={btn_add} salario="" funcao_salvar={cadastrarSalario}/>
+            <SalarioModal botao={btn_add} salario="" />
         </tfoot>
     </table>
     

@@ -4,6 +4,8 @@ import Header from "../header";
 import Footer from "../footer";
 import { Modal } from "react-bootstrap";
 
+import {salvar_dados_egresso } from '../../js/page_usuario/usuario'
+
 function EgressoModal(props){
 
     function MyVerticallyCenteredModal(props) {
@@ -13,8 +15,8 @@ function EgressoModal(props){
         const [resumo, setResumo] = useState(props.egresso.resumo)
         const [id, setId] = useState(props.egresso.id)
         
-        function salvar_dados_egresso(){
-          props.funcao_salvar(id, nome, email, cpf, resumo);
+        function salvar(){
+          salvar_dados_egresso(id, nome, email, cpf, resumo);
           setModalShow(false)
         }
         
@@ -52,7 +54,7 @@ function EgressoModal(props){
         </Form>      
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => salvar_dados_egresso()}>Salvar</Button>
+              <Button onClick={() => salvar()}>Salvar</Button>
             </Modal.Footer>
           </Modal>
         );
@@ -68,8 +70,6 @@ function EgressoModal(props){
       show={modalShow}
       onHide={() => setModalShow(false)}
       egresso={props.dados_egresso}
-      funcao_salvar={props.funcao_salvar}
-      setEgresso={props.setEgresso}
     />
     </div>
   )

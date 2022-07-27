@@ -7,58 +7,11 @@ import { Modal } from "react-bootstrap";
 import CargoModal from './cargo-model';
 import CargoService from '../../CargoService';
 
+import { btn_add, btn_edit, confirmar_remover } from '../../js/page_administrador/cargo';
+
 function CargoTable(props){
 
     const service = new CargoService()
-
-    function cadastrarCargo(id, nome, descricao)  {
-      service.cadastrar(nome, descricao)
-        .then( response => {
-          Swal.fire('Cargo cadastrado com sucesso!', '', 'success').then((result) => {
-            window.location.reload();
-          });
-        }).catch (erro => {
-            console.log(erro.response)
-        })
-    }
-
-    function confirmarRemover(id)  {
-      Swal.fire({  
-        title: 'Removar cargo?',  
-        type: 'warning',  
-        showCancelButton: true,  
-        confirmButtonColor: '#3085d6',  
-        cancelButtonColor: '#d33',  
-        confirmButtonText: 'Yes!'  
-      }).then((result) => {  
-        if (result.isConfirmed){
-          removerCargo(id)
-        }
-      });
-    }
-    function removerCargo(id)  {
-      service.remover(id)
-        .then( response => {
-          Swal.fire('Cargo removido com sucesso.', '', 'success').then((result) => {
-            window.location.reload();
-          });
-        }).catch (erro => {
-            console.log(erro.response)
-        })
-    }
-    function editarCargo(id, nome, descricao)  {
-      service.editar(id, nome, descricao)
-        .then( response => {
-          Swal.fire('Cargo editado com sucesso!', '', 'success').then((result) => {
-            window.location.reload();
-          });
-        }).catch (erro => {
-            console.log(erro.response)
-        })
-    }
-
-  const [btn_add, setBtnAdd] = useState({classe:"btn btn-primary mt-3",texto:"Cadastrar"})
-  const [btn_edit, setBtnEdit] = useState({classe:"btn btn-warning",texto:"Editar"})
 
   const row = props.cargos.map(
     cargo => {
@@ -69,10 +22,10 @@ function CargoTable(props){
           <td>{cargo.descricao}</td>                  
           <td>
               <div className="btn-group mx-3">
-                  <CargoModal botao={btn_edit} cargo={cargo} funcao_salvar={editarCargo}/>
+                  <CargoModal botao={btn_edit} cargo={cargo} />
               </div>          
               <div className="btn-group ">
-                  <button onClick={() =>{confirmarRemover(cargo.id)}} type="button" className="btn btn-danger">Remover</button>
+                  <button onClick={() =>{confirmar_remover(cargo.id)}} type="button" className="btn btn-danger">Remover</button>
               </div>                   
           </td>
         </tr>
@@ -95,7 +48,7 @@ function CargoTable(props){
           {row}
         </tbody>
         <tfoot>
-            <CargoModal botao={btn_add} cargo="" funcao_salvar={cadastrarCargo}/>
+            <CargoModal botao={btn_add} cargo="" />
         </tfoot>
     </table>
     

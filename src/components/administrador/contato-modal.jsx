@@ -4,14 +4,18 @@ import Header from "../header";
 import Footer from "../footer";
 import { Modal } from "react-bootstrap";
 
+import { salvar_contato } from '../../js/page_administrador/contato';
+
 function ContatoModal(props){
+    const [id_contato] = useState(props.contato.id)
+    const [acao] = useState(props.botao.texto)
 
     function MyVerticallyCenteredModal(props) {
         const [nome, setNome] = useState(props.contato.nome)
         const [url_logo, setUrl] = useState(props.contato.url_logo)
         
-        function salvar_contato(){
-          props.funcao_salvar(id, nome, url_logo);
+        function salvar(){
+          salvar_contato(acao, id_contato, nome, url_logo);
           setModalShow(false)
         }
         return (
@@ -22,7 +26,7 @@ function ContatoModal(props){
             centered>
             <Modal.Header closeButton>
               <Modal.Title id="contained-modal-title-vcenter">
-                {props.acao} contato
+                {acao} contato
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -46,14 +50,14 @@ function ContatoModal(props){
               </Form>      
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={() => salvar_contato()}>Salvar</Button>
+              <Button onClick={() => salvar()}>Salvar</Button>
             </Modal.Footer>
           </Modal>
         );
     }
 
   const [modalShow, setModalShow] = React.useState(false);
-  const [id, setId] = useState(props.contato.id)
+  
   return(
     <div>
       <a>
@@ -63,8 +67,6 @@ function ContatoModal(props){
       show={modalShow}
       onHide={() => setModalShow(false)}
       contato={props.contato}
-      funcao_salvar={props.funcao_salvar}
-      acao={props.botao.texto}
     />
     </div>
   )
