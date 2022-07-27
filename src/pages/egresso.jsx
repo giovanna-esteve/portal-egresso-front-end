@@ -42,6 +42,8 @@ function Egresso(){
     const [depoimentos, setDepoimentos] = useState([]);
     const [cursos, setCursos] = useState([]);
     const [contatos, setContatos] = useState([]);
+    const [currentUser, setCurrentUser] = useState({});
+    
 
     useEffect( ()=>{
         service.busca_dados_pagina_egresso(id)
@@ -65,6 +67,12 @@ function Egresso(){
         contatoEgressoService.listar(id)
         .then( response => {
             setContatos(response.data.map(parseContatoEgressoToContato));
+        }).catch (erro => {
+            console.log(erro.response)
+        })
+        service.egressoAtual().then( response => {
+            console.log(response.data);
+            setCurrentUser(response.data);
         }).catch (erro => {
             console.log(erro.response)
         })
@@ -96,7 +104,9 @@ function Egresso(){
                                 <p>cpf: {egresso.cpf}</p>
                                 <p>email: {egresso.email}</p>
                                 <p>outros dados</p>
-                                <Button href="#/usuario" variant="secondary">Minhas informações</Button>
+                                {
+                                    currentUser.id == egresso.id && <Button href={`#/usuario/${currentUser.id}`}  variant="secondary">Minhas informações</Button>
+                                }
                             </Col>
                         </Row>
                     </Container>
