@@ -9,6 +9,7 @@ import Slider from "react-slick";
 import { useParams } from "react-router-dom";
 import EgressoService from "../EgressoService";
 import DepoimentoService from "../DepoimentoService";
+import CursoEgressoService from "../CursoEgressoService";
 
 
 
@@ -19,10 +20,18 @@ function Egresso(){
 
     const service = new EgressoService();
     const depoimentoService = new DepoimentoService();
+    const cursoEgressoService = new CursoEgressoService();
+    const parseCursoEgressoToCurso = (ce) => {
+        let c = {...ce.curso};
+        c.dataInicio = ce.dataInicio
+        c.dataConclusao = ce.dataConclusao
+        return c;
+    }
 
     const [state, setState] = useState({egressos : []});
     const [egresso, setEgresso] = useState({});
     const [depoimentos, setDepoimentos] = useState([]);
+    const [cursos, setCursos] = useState([]);
 
     useEffect( ()=>{
         service.busca_dados_pagina_egresso(id)
@@ -34,6 +43,12 @@ function Egresso(){
         depoimentoService.listar(id)
         .then( response => {
             setDepoimentos(response.data);
+        }).catch (erro => {
+            console.log(erro.response)
+        })
+        cursoEgressoService.listar(id)
+        .then( response => {
+            setCursos(response.data.map(parseCursoEgressoToCurso));
         }).catch (erro => {
             console.log(erro.response)
         })
@@ -75,9 +90,6 @@ function Egresso(){
                         <h2 style={{"paddingBottom": "2rem"}}>Meus Cursos</h2>
                         <Slider {...SliderDefaultsettings}>
                             {cursos.map((cur)=> { return <CursoCard curso={cur}/>})}
-                            <CursoCard dataInicio='06/05/2015' dataConclusao='13/10/2020'/>
-                            <CursoCard dataInicio='06/05/2015' dataConclusao='13/10/2020'/>
-                            <CursoCard dataInicio='06/05/2015' dataConclusao='13/10/2020'/>
                         </Slider>
                     </Container>
 
