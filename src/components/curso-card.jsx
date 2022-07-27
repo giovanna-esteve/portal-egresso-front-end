@@ -22,12 +22,15 @@ function CursoCard (props){
         <div className="p-1 pb-5">
         <Card style={{ width: '18rem', "backgroundColor": "#f3f3f3" }} >
             <Card.Body>
-                <Card.Title>Ciencia da computação</Card.Title>
-                <Card.Subtitle  className="mb-2 fw-light">Graduação</Card.Subtitle>
+                <Card.Title>{props.curso.nome}</Card.Title>
+                <Card.Subtitle  className="mb-2 fw-light">{props.curso.nivel}</Card.Subtitle>
                 <Card.Text>
-                    {getDataInicio(props.dataInicio)}
-                    {getDataConclusao(props.dataConclusao)}
+                    {getDataInicio(props.curso.dataInicio)}
+                    {getDataConclusao(props.curso.dataConclusao)}
                 </Card.Text>
+                <div className="d-flex justify-content-center">
+                    <Button href={`#/curso/${props.curso.id}`} variant="secondary">Mais sobre</Button>
+                </div>
             </Card.Body>
         </Card>
         </div>

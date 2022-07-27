@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from "react-bootstrap";
 import Slider from "react-slick";
 import EgressoCard from "../components/egresso-card";
@@ -11,25 +11,48 @@ import Footer from "../components/footer";
 import imgLogin from '../images/image_login_2.svg'
 import imgHome from '../images/imagem_home.svg'
 import EgressoService from "../EgressoService";
+import CursoService from "../CursoService";
+import DepoimentoService from "../DepoimentoService";
 
 
 function Home(){
 
-    const service = new EgressoService();
+    const egressoService = new EgressoService();
+    const cursoService = new CursoService();
+    const depoimentoService = new DepoimentoService();
 
-    const [state, setState] = useState({egressos : []});
+    const [egressos, setEgressos] = useState([]);
+    const [cursos, setCursos] = useState([]);
+    const [depoimentos, setDepoimentos] = useState([]);
 
-    function componentDidMount() {
-        service.listar()
-        .then( response => {
-            console.log(response.data)
-            setState( {egressos : response.data} )
-        }).catch (erro => {
-            console.log(erro.response)
-        })
-    }
 
-    componentDidMount()
+    useEffect( ()=>{
+        egressoService.listar()
+            .then( response => {
+                console.log(response.data)
+                setEgressos(response.data)
+            }).catch (erro => {
+                console.log(erro.response)
+            })
+
+        cursoService.listar()
+            .then( response => {
+                console.log(response.data)
+                setCursos(response.data)
+            }).catch (erro => {
+                console.log(erro.response)
+            })
+
+            depoimentoService.recentes()
+            .then( response => {
+                console.log(response.data)
+                setDepoimentos(response.data)
+            }).catch (erro => {
+                console.log(erro.response)
+            })
+
+    }, [])
+
 
     var SliderDefaultsettings = {
         dots: true,
@@ -74,7 +97,7 @@ function Home(){
                     <Container >
                     <h2 style={{"paddingBottom": "2rem", color: '#ffffff'}}>Egressos</h2>
                     <Slider {...SliderDefaultsettings}>
-                        {state.egressos.map((egr)=> { return <EgressoCard egressos={egr}/>})}
+                        {egressos.map((egr)=> { return <EgressoCard egressos={egr}/>})}
                     </Slider>
                     <div className="d-flex justify-content-center pt-5">
                         <Button href="#/egressos" variant="primary">Ver mais</Button>
@@ -85,12 +108,7 @@ function Home(){
                 <Container >
                     <h2 style={{"paddingBottom": "2rem"}}>Cursos</h2>
                     <Slider {...SliderDefaultsettings}>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
+                        {cursos.map((cur)=> { return <CursoCard curso={cur}/>})}
                     </Slider>
                     <div className="d-flex justify-content-center pt-5">
                         <Button href="#/cursos" variant="primary">Ver mais</Button>
@@ -101,12 +119,7 @@ function Home(){
                 <Container >
                     <h2 style={{"paddingBottom": "2rem", color: "#ffffff"}}>Depoimentos</h2>
                     <Slider {...SliderDepoimentosettings}>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
+                        {depoimentos.map((dep)=> { return <DepoimentoCard depoimento={dep}/>})}
                     </Slider>
                     <div className="d-flex justify-content-center pt-5">
                         <Button href="#/depoimentos" variant="primary">Ver mais</Button>

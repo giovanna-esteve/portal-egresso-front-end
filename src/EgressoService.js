@@ -23,5 +23,9 @@ class EgressoService extends ApiService {
     busca_dados_pagina_egresso(id) {
         return this.get(`/dados_egresso?id=${id}`)
     }
+
+    egressoAtual() {
+        return this.get(`/egresso`)
+    }
 }
 export default EgressoService

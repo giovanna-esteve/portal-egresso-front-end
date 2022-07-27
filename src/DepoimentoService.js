@@ -4,6 +4,10 @@ class DepoimentoService extends ApiService {
         super('/api/depoimentos')
     }
 
+    recentes() {
+        return this.get(`/recentes`)
+    }
+
     listar(id_egresso) {
         return this.get(`/listar?id_egresso=${id_egresso}`)
     }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Container } from "react-bootstrap";
 import Slider from "react-slick";
 import EgressoCard from "../components/egresso-card";
@@ -7,8 +7,25 @@ import DepoimentoCard from "../components/depoimento-card";
 import Header from "../components/header";
 import {Button } from "react-bootstrap";
 import Footer from "../components/footer";
+import CursoService from "../CursoService"
 
 function Cursos(){
+
+    const cursoService = new CursoService();
+    const [cursos, setCursos] = useState([]);
+
+
+    useEffect( ()=>{
+        cursoService.listar()
+            .then( response => {
+                console.log(response.data)
+                setCursos(response.data)
+            }).catch (erro => {
+                console.log(erro.response)
+            })
+
+    }, [])
+
 
     var SliderDefaultsettings = {
         dots: true,
@@ -35,18 +52,7 @@ function Cursos(){
                     <h2 className="d-flex justify-content-center " style={{"paddingBottom": "2rem"}}>Cursos</h2>
                     <div className="d-flex container flex-wrap justify-content-around">
 
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
-                        <CursoCard/>
+                        {cursos.map((cur)=> { return <CursoCard curso={cur}/>})}
                     </div>
                     <div className="d-flex justify-content-center mt-3">
                         <Button variant="primary">Carregar Mais</Button>
