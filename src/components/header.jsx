@@ -22,6 +22,7 @@ function Header(){
         })
         egressoService.egressoAtual().then( response => {
             console.log(response.data.id);
+            setEgressoId(response.data.id);
         }).catch (erro => {
             console.log(erro.response)
         })
