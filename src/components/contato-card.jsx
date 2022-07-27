@@ -21,8 +21,8 @@ function ContatoCard (props){
         <div className="p-1 pb-5">
         <Card style={{ width: '18rem', "backgroundColor": "#f3f3f3" }} >
             <Card.Body>
-                <Card.Title>{getIcons(props.icon)} Linkedin</Card.Title>
-                <Card.Subtitle  className="mb-2 fw-light">{props.text}</Card.Subtitle>
+                <Card.Title>{getIcons(props.contato.icon)} {props.contato.nome}</Card.Title>
+                <Card.Subtitle  className="mb-2 fw-light">{props.contato.text}</Card.Subtitle>
             </Card.Body>
         </Card>
         </div>
