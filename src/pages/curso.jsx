@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Header from "../components/header";
 import Footer from "../components/footer";
@@ -11,6 +11,7 @@ import DepoimentoCard from "../components/depoimento-card";
 import Slider from "react-slick";
 import { useParams } from "react-router-dom";
 import EgressoService from "../EgressoService";
+import DepoimentoService from "../DepoimentoService";
 
 
 
@@ -19,19 +20,22 @@ function Curso(){
 
     const { id } = useParams();
 
-    // const service = new EgressoService()
+    const egressoService = new EgressoService()
+    const depoimentoService = new DepoimentoService();
 
     // const [state, setState] = useState({egressos : []});
+    const [depoimentos, setDepoimentos] = useState([]);
 
-    // function componentDidMount() {
-    //     service.busca_dados_pagina_egresso(id)
-    //     .then( response => {
-    //         console.log(response.data)
-    //         setState( {egressos : response.data} )
-    //     }).catch (erro => {
-    //         console.log(erro.response)
-    //     })
-    // }
+    useEffect( ()=>{
+        egressoService.listar()
+            .then( response => {
+                // console.log(response.data)
+                // setEgressos(response.data)
+            }).catch (erro => {
+                console.log(erro.response)
+            })
+    
+    }, [])
 
     const SliderDefaultsettings = {
         dots: true,
@@ -73,34 +77,9 @@ function Curso(){
                 <section style={{"backgroundColor": "#ffffff"}} className='py-4'>
                     <Container className="pb-3">
                         <h2 style={{"paddingBottom": "2rem"}}>Egressos</h2>
-                        <Slider {...SliderDefaultsettings}>
+                        <div className="d-flex container flex-wrap justify-content-around">
                             {egressos.map((egr)=> { return <EgressoCard egressos={egr}/>})}
-                        </Slider>
-                    </Container>
-
-                </section>
-                <section style={{"backgroundColor": "#ffffff"}} className='py-4'>
-                    <Container className="pb-3">
-                        <h2 style={{"paddingBottom": "2rem"}}>Estatisticas</h2>
-                        <Row>
-                            <Col>
-                                <FaixaSalario/>
-                            </Col>
-                            <Col>
-                                <ConcluintesAno/>
-                            </Col>
-                        </Row>
-                    </Container>
-
-                </section>
-                <section style={{"backgroundColor": "#ffffff"}} className='py-4'>
-                    <Container className="pb-3">
-                        <h2 style={{"paddingBottom": "2rem"}}>Depoimentos</h2>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
+                        </div>
                     </Container>
 
                 </section>
