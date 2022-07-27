@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Header from "../components/header";
 import Footer from "../components/footer";
@@ -8,6 +8,7 @@ import DepoimentoCard from "../components/depoimento-card";
 import Slider from "react-slick";
 import { useParams } from "react-router-dom";
 import EgressoService from "../EgressoService";
+import DepoimentoService from "../DepoimentoService";
 
 
 
@@ -16,19 +17,27 @@ function Egresso(){
 
     const { id } = useParams();
 
-    const service = new EgressoService()
+    const service = new EgressoService();
+    const depoimentoService = new DepoimentoService();
 
     const [state, setState] = useState({egressos : []});
+    const [egresso, setEgresso] = useState({});
+    const [depoimentos, setDepoimentos] = useState([]);
 
-    function componentDidMount() {
+    useEffect( ()=>{
         service.busca_dados_pagina_egresso(id)
         .then( response => {
-            console.log(response.data)
-            setState( {egressos : response.data} )
+            setEgresso(response.data)
         }).catch (erro => {
             console.log(erro.response)
         })
-    }
+        depoimentoService.listar(id)
+        .then( response => {
+            setDepoimentos(response.data);
+        }).catch (erro => {
+            console.log(erro.response)
+        })
+    }, [])
 
     var SliderDefaultsettings = {
         dots: true,
@@ -39,7 +48,6 @@ function Egresso(){
         slidesToScroll: 2
     };
 
-    componentDidMount();
 
     return(
         <React.Fragment>
@@ -51,9 +59,10 @@ function Egresso(){
                                 <img style={{ width: '18rem', height: '18rem', objectFit: 'cover', borderRadius: '50%'}} className=" " src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"alt=""/>
                             </Col>
                             <Col lg={7} className=" mt-5 mb-3" style={{color: '#ffffff'}}>
-                                <h2>{state.egressos.nome}</h2>
-                                <p>Descricao</p>
-                                <p>idade</p>
+                                <h2>{egresso.nome}</h2>
+                                <p>{egresso.resumo}</p>
+                                <p>cpf: {egresso.cpf}</p>
+                                <p>email: {egresso.email}</p>
                                 <p>outros dados</p>
                                 <Button href="#/usuario" variant="secondary">Minhas informações</Button>
                             </Col>
@@ -65,7 +74,7 @@ function Egresso(){
                     <Container className="pb-3">
                         <h2 style={{"paddingBottom": "2rem"}}>Meus Cursos</h2>
                         <Slider {...SliderDefaultsettings}>
-                            <CursoCard dataInicio='06/05/2015' dataConclusao='13/10/2020'/>
+                            {cursos.map((cur)=> { return <CursoCard curso={cur}/>})}
                             <CursoCard dataInicio='06/05/2015' dataConclusao='13/10/2020'/>
                             <CursoCard dataInicio='06/05/2015' dataConclusao='13/10/2020'/>
                             <CursoCard dataInicio='06/05/2015' dataConclusao='13/10/2020'/>
@@ -88,11 +97,7 @@ function Egresso(){
                 <section style={{"backgroundColor": "#ffffff"}} className='py-4'>
                     <Container className="pb-3">
                         <h2 style={{"paddingBottom": "2rem"}}>Meus depoimentos</h2>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
-                        <DepoimentoCard/>
+                        {depoimentos.map((dep)=> { return <DepoimentoCard depoimento={dep}/>})}
                     </Container>
 
                 </section>
