@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 import { Button,Col, Container, Row, Form,  Card, Table} from "react-bootstrap";
 import ProfEgressoService from '../../ProfEgressoService';
 import ProfissaoModal from './profissao-modal';
-import '../../css/usuario.css'
 import {btn_add, btn_edit} from '../../js/page_usuario/usuario'
 import {confirmar_remover} from '../../js/page_usuario/profissao'
 
